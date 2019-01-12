@@ -104,8 +104,6 @@ namespace WeightTweaks
             File.WriteAllText(Path.Combine(WeightTweaks.modOptionsFolder, WeightTweaks.optionsFileName), jsonOpts);
         }
 
-        
-
         protected override void OnChange(FieldInfo field, object oldVal, object newVal)
         {
             if (field.Name == nameof(infiniteCarry))

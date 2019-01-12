@@ -70,8 +70,6 @@ namespace WeightTweaks
         {
             float modifier = (WeightTweaks.options.carryKgAdd + 30f) / 30f;
 
-            Debug.Log("[weight-tweaks] GetHourlyCalorieBurnFromWeight:" + __result);
-
             __result = __result / modifier;
         }
     }
