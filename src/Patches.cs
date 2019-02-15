@@ -59,6 +59,7 @@ namespace WeightTweaks
     {
         private static void Prefix(ClothingItem __instance)
         {
+            //Debug.Log(GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier);
             GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier = WeightTweaks.options.clothingWornWeightMod;
         }
     }

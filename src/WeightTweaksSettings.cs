@@ -28,9 +28,9 @@ namespace WeightTweaks
         public float clothingWeightMod = 1f;
 
         [Name("Worn Clothing Modifier")]
-        [Description("Increases or reduces the weight of clothing items you are wearing (e.g. 0 makes them weightless, 0.25 is game default, 1 would make clothing weight the same either worn or not.")]
+        [Description("Increases or reduces the weight of clothing items you are wearing (e.g. 0 makes them weightless, 0.75 is game default, 1 would make clothing weight the same either worn or not.")]
         [Slider(0f, 1f, NumberFormat = "{0:F2}")]
-        public float clothingWornWeightMod = 0.25f;
+        public float clothingWornWeightMod = 0.75f;
 
         [Name("Water Modifier")]
         [Description("Increases or reduces the weight of the water supply (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
