@@ -27,7 +27,7 @@ namespace WeightTweaks
     {
         private static void Postfix(GearItem __instance, ref float __result)
         {
-            if (WeightTweaks.options.infiniteCarry)
+            if (Settings.options.infiniteCarry)
             {
                 __result = 0;
             }
@@ -43,7 +43,7 @@ namespace WeightTweaks
     {
         private static void Postfix(GearItem __instance, ref float __result)
         {
-            if (WeightTweaks.options.infiniteCarry)
+            if (Settings.options.infiniteCarry)
             {
                 __result = 0;
             }
@@ -60,7 +60,7 @@ namespace WeightTweaks
         private static void Prefix(ClothingItem __instance)
         {
             //Debug.Log(GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier);
-            GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier = WeightTweaks.options.clothingWornWeightMod;
+            GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier = Settings.options.clothingWornWeightMod;
         }
     }
 
@@ -69,7 +69,7 @@ namespace WeightTweaks
     {
         private static void Postfix(Encumber __instance, ref float __result)
         {
-            float modifier = (WeightTweaks.options.carryKgAdd + 30f) / 30f;
+            float modifier = (Settings.options.carryKgAdd + 30f) / 30f;
 
             __result = __result / modifier;
         }

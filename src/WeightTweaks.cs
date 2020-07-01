@@ -1,56 +1,30 @@
 ﻿using System.IO;
 using System.Reflection;
 using UnityEngine;
+using MelonLoader;
 
 namespace WeightTweaks
 {
-    public class WeightTweaksOptions
+    public class WeightTweaks : MelonMod
     {
-        public bool infiniteCarry = false;
-        public int carryKgAdd = 0;
-
-        public float clothingWeightMod = 1f;
-        public float clothingWornWeightMod = 0.25f;
-        public float waterWeightMod = 1f;
-        public float foodWeightMod = 1f;
-        public float rifleWeightMod = 1f;
-        public float quarterWeightMod = 1f;
-        public float toolWeightMod = 1f;
-        public float defaultWeightMod = 1f;
-    }
-
-    public class WeightTweaks
-    {
-        public static string modsFolder;
-        public static string modOptionsFolder;
-        public static string optionsFolderName = "xpazeman-minimods";
-        public static string optionsFileName = "config-weight.json";
-
-        public static WeightTweaksOptions options;
-
-        public static void OnLoad()
+        public override void OnApplicationStart()
         {
-            modsFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            modOptionsFolder = Path.Combine(modsFolder, optionsFolderName);
-
-            WeightTweaksSettings weightSettings = new WeightTweaksSettings();
-            weightSettings.AddToModSettings("Weight Tweaks");
-            options = weightSettings.setOptions;
+            Settings.OnLoad();
 
             Debug.Log("[weight-tweaks] Version " + Assembly.GetExecutingAssembly().GetName().Version);
         }
 
         public static void EncumberUpdate()
         {
-            if (options.carryKgAdd > 0)
+            if (Settings.options.carryKgAdd > 0)
             {
-                GameManager.GetEncumberComponent().m_MaxCarryCapacityKG = 30f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_MaxCarryCapacityWhenExhaustedKG = 15f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_NoSprintCarryCapacityKG = 40f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_NoWalkCarryCapacityKG = 60f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberLowThresholdKG = 31f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberMedThresholdKG = 40f + WeightTweaks.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberHighThresholdKG = 60f + WeightTweaks.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_MaxCarryCapacityKG = 30f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_MaxCarryCapacityWhenExhaustedKG = 15f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_NoSprintCarryCapacityKG = 40f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_NoWalkCarryCapacityKG = 60f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_EncumberLowThresholdKG = 31f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_EncumberMedThresholdKG = 40f + Settings.options.carryKgAdd;
+                GameManager.GetEncumberComponent().m_EncumberHighThresholdKG = 60f + Settings.options.carryKgAdd;
             }
         }
 
@@ -58,31 +32,31 @@ namespace WeightTweaks
         {
             if (item.m_ClothingItem)
             {
-                return baseWeight * options.clothingWeightMod;
+                return baseWeight * Settings.options.clothingWeightMod;
             }
             else if (item.m_WaterSupply)
             {
-                return baseWeight * options.waterWeightMod;
+                return baseWeight * Settings.options.waterWeightMod;
             }
             else if (item.m_FoodItem)
             {
-                return baseWeight * options.foodWeightMod;
+                return baseWeight * Settings.options.foodWeightMod;
             }
             else if (item.m_GunItem || item.m_BowItem || item.m_AmmoItem || item.m_ArrowItem)
             {
-                return baseWeight * options.rifleWeightMod;
+                return baseWeight * Settings.options.rifleWeightMod;
             }
             else if (item.m_BodyHarvest)
             {
-                return baseWeight * options.quarterWeightMod;
+                return baseWeight * Settings.options.quarterWeightMod;
             }
             else if (item.m_ToolsItem || item.m_FlashlightItem || item.m_CookingPotItem || item.m_FlareItem || item.m_TorchItem || item.m_FishingItem || item.m_KeroseneLampItem)
             {
-                return baseWeight * options.toolWeightMod;
+                return baseWeight * Settings.options.toolWeightMod;
             }
             else
             {
-                return baseWeight * options.defaultWeightMod;
+                return baseWeight * Settings.options.defaultWeightMod;
             }
         }
     }
