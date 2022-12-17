@@ -6,8 +6,8 @@ using MelonLoader;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: MelonModInfo(typeof(WeightTweaks.WeightTweaks), "Weight Tweaks", "2.0", "Xpazeman")]
-[assembly: MelonModGame("Hinterland", "TheLongDark")]
+[assembly: MelonInfo(typeof(WeightTweaks.WeightTweaks), "Weight Tweaks", "2.0", "Xpazeman")]
+[assembly: MelonGame("Hinterland", "TheLongDark")]
 [assembly: AssemblyTitle("tld-weight-tweaks")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
