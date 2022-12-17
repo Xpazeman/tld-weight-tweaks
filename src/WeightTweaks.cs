@@ -1,7 +1,7 @@
-﻿using System.IO;
 using System.Reflection;
 using UnityEngine;
 using MelonLoader;
+using Il2Cpp;
 
 namespace WeightTweaks
 {
