@@ -22,7 +22,7 @@ namespace WeightTweaks
         }
     }
 
-    [HarmonyPatch(typeof(GearItem), "GetItemWeightKG")]
+    [HarmonyPatch(typeof(GearItem), "GetItemWeightKG", new Type[] { typeof(bool) })]
     internal class GearItem_GetItemWeightKG
     {
         private static void Postfix(GearItem __instance, ref float __result)
