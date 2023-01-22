@@ -1,11 +1,12 @@
 # Weight Tweaks
 Mod for The Long Dark to modify item weights and carry capacity.
 
+## Updates
+### v2.1
+* FIX: Updated to work with TLD 2.06
+
 ## Installing the mod
-* If you haven't done so already, install MelonLoader by downloading and running [MelonLoader.Installer.exe](https://github.com/HerpDerpinstine/MelonLoader/releases/latest/download/MelonLoader.Installer.exe).
-* You'll need to download and install [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings/releases/download/v1.6/ModSettings.dll) by Zeo. **MOD WON'T WORK WITHOUT IT**
-* Download the latest version of WeightTweaks.dll from the [releases page](https://github.com/Xpazeman/tld-weight-tweaks/releases/latest).
-* Move WeightTweaks.dll into the Mods folder in your TLD install directory.
+* Read the [installation instructions on the modlist](https://xpazeman.com/tld-mod-list/install.html)
 
 ## Features accesible through the Mod Settings menu:
 + Toggle infinite carry on/off
