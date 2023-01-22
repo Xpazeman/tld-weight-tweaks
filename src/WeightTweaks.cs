@@ -2,16 +2,15 @@
 using System.Reflection;
 using UnityEngine;
 using MelonLoader;
+using Il2Cpp;
 
 namespace WeightTweaks
 {
     public class WeightTweaks : MelonMod
     {
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
         {
             Settings.OnLoad();
-
-            Debug.Log("[weight-tweaks] Version " + Assembly.GetExecutingAssembly().GetName().Version);
         }
 
         public static void EncumberUpdate()
