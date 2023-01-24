@@ -2,6 +2,10 @@
 Mod for The Long Dark to modify item weights and carry capacity.
 
 ## Updates
+### v2.2
+* NEW: Added a new toggle in the settings to disable the item weight modification which may remove the stuttering in some systems
+* FIX: Rewrote part of the mod to optimize it
+
 ### v2.1
 * FIX: Updated to work with TLD 2.06
 
