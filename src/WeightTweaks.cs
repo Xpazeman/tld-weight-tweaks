@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Reflection;
-using UnityEngine;
-using MelonLoader;
+﻿using MelonLoader;
 using Il2Cpp;
 
 namespace WeightTweaks
@@ -13,17 +10,17 @@ namespace WeightTweaks
             Settings.OnLoad();
         }
 
-        public static void EncumberUpdate()
+        public static void EncumberUpdate(Encumber encumberComp)
         {
             if (Settings.options.carryKgAdd > 0)
             {
-                GameManager.GetEncumberComponent().m_MaxCarryCapacityKG = 30f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_MaxCarryCapacityWhenExhaustedKG = 15f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_NoSprintCarryCapacityKG = 40f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_NoWalkCarryCapacityKG = 60f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberLowThresholdKG = 31f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberMedThresholdKG = 40f + Settings.options.carryKgAdd;
-                GameManager.GetEncumberComponent().m_EncumberHighThresholdKG = 60f + Settings.options.carryKgAdd;
+                encumberComp.m_MaxCarryCapacityKG = 30f + Settings.options.carryKgAdd;
+                encumberComp.m_MaxCarryCapacityWhenExhaustedKG = 15f + Settings.options.carryKgAdd;
+                encumberComp.m_NoSprintCarryCapacityKG = 40f + Settings.options.carryKgAdd;
+                encumberComp.m_NoWalkCarryCapacityKG = 60f + Settings.options.carryKgAdd;
+                encumberComp.m_EncumberLowThresholdKG = 31f + Settings.options.carryKgAdd;
+                encumberComp.m_EncumberMedThresholdKG = 40f + Settings.options.carryKgAdd;
+                encumberComp.m_EncumberHighThresholdKG = 60f + Settings.options.carryKgAdd;
             }
         }
 
