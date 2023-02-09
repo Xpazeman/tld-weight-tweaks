@@ -14,42 +14,21 @@ namespace WeightTweaks
         }
     }
 
-    [HarmonyPatch(typeof(GearItem), nameof(GearItem.GetItemWeightKG), new Type[] { typeof(bool) })]
-    internal class GearItem_GetItemWeightKG
+    [HarmonyPatch(typeof(GearItem), nameof(GearItem.Awake))]
+    internal class GearItem_Awake
     {
-        private static void Postfix(GearItem __instance, ref float __result)
+        private static void Postfix(GearItem __instance)
         {
-            if (Settings.options.infiniteCarry)
-            {
-                __result = 0;
-            }
-            else if (!Settings.options.modifyWeight)
-            {
-                return;
-            }
-            else
-            {
-                __result = WeightTweaks.ModifyWeight(__instance, __result);
-            }
-        }
-    }
+            WeightTweaksHandler handler = __instance.gameObject.AddComponent<WeightTweaksHandler>();
+            handler.Init(__instance);
+            WeightTweaks.itemList.Add(handler);
 
-    [HarmonyPatch(typeof(GearItem), nameof(GearItem.GetItemWeightKG), new Type[] { typeof(float), typeof(bool) })]
-    internal class GearItem_GetItemWeightKG_Stack
-    {
-        private static void Postfix(GearItem __instance, ref float __result)
-        {
-            if (Settings.options.infiniteCarry)
-            {
-                __result = 0;
-            }
-            else if (!Settings.options.modifyWeight)
-            {
-                return;
+            if (Settings.options.infiniteCarry) { 
+                handler.ModifyWeight(0);
             }
             else
             {
-                __result = WeightTweaks.ModifyWeight(__instance, __result);
+                handler.ModifyWeight(WeightTweaks.GetWeightModifier(__instance));
             }
         }
     }
@@ -59,7 +38,7 @@ namespace WeightTweaks
     {
         private static void Prefix(PlayerManager __instance)
         {
-            GameManager.GetPlayerManagerComponent().m_ClothingWeightWhenWornModifier = Settings.options.clothingWornWeightMod;
+            __instance.m_ClothingWeightWhenWornModifier = Settings.options.clothingWornWeightMod;
         }
     }
 }

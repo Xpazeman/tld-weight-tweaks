@@ -19,10 +19,6 @@ namespace WeightTweaks
 
         [Section("Item Weight Modifiers")]
 
-        [Name("Modify Item Weights")]
-        [Description("Toggling this on enables you to modify item weights. Turning this off might help removing the stuttering in some systems.")]
-        public bool modifyWeight = false;
-
         [Name("Clothing Modifier")]
         [Description("Increases or reduces the weight of clothing items (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
         [Slider(0f, 2f, 1, NumberFormat = "{0:F2}")]
@@ -73,26 +69,18 @@ namespace WeightTweaks
             {
                 WeightTweaks.EncumberUpdate(encumberComp);
             }
-        }
 
-        protected override void OnChange(FieldInfo field, object oldValue, object newValue)
-        {
-            if (field.Name == nameof(modifyWeight))
+            foreach(WeightTweaksHandler handler in WeightTweaks.itemList)
             {
-                RefreshFields();
+                if (Settings.options.infiniteCarry)
+                {
+                    handler.ModifyWeight(0);
+                }
+                else
+                {
+                    handler.ModifyWeight(WeightTweaks.GetWeightModifier(handler.item));
+                }
             }
-        }
-
-        internal void RefreshFields()
-        {
-            SetFieldVisible(nameof(clothingWeightMod), modifyWeight);
-            SetFieldVisible(nameof(clothingWornWeightMod), modifyWeight);
-            SetFieldVisible(nameof(waterWeightMod), modifyWeight);
-            SetFieldVisible(nameof(foodWeightMod), modifyWeight);
-            SetFieldVisible(nameof(rifleWeightMod), modifyWeight);
-            SetFieldVisible(nameof(quarterWeightMod), modifyWeight);
-            SetFieldVisible(nameof(toolWeightMod), modifyWeight);
-            SetFieldVisible(nameof(defaultWeightMod), modifyWeight);
         }
     }
 
@@ -103,7 +91,6 @@ namespace WeightTweaks
         public static void OnLoad()
         {
             options = new WeightTweaksSettings();
-            options.RefreshFields();
             options.AddToModSettings("Weight Tweaks");
         }
     }

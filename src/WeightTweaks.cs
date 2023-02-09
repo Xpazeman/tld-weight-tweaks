@@ -1,12 +1,16 @@
 ﻿using MelonLoader;
 using Il2Cpp;
+using Il2CppInterop.Runtime.Injection;
 
 namespace WeightTweaks
 {
-    public class WeightTweaks : MelonMod
+    class WeightTweaks : MelonMod
     {
+        public static List<WeightTweaksHandler> itemList = new List<WeightTweaksHandler>();
+        
         public override void OnInitializeMelon()
         {
+            ClassInjector.RegisterTypeInIl2Cpp<WeightTweaksHandler>();
             Settings.OnLoad();
         }
 
@@ -24,35 +28,35 @@ namespace WeightTweaks
             }
         }
 
-        public static float ModifyWeight(GearItem item, float baseWeight)
+        public static float GetWeightModifier(GearItem item)
         {
             if (item.m_ClothingItem)
             {
-                return baseWeight * Settings.options.clothingWeightMod;
+                return Settings.options.clothingWeightMod;
             }
             else if (item.m_WaterSupply)
             {
-                return baseWeight * Settings.options.waterWeightMod;
+                return Settings.options.waterWeightMod;
             }
             else if (item.m_FoodItem)
             {
-                return baseWeight * Settings.options.foodWeightMod;
+                return Settings.options.foodWeightMod;
             }
             else if (item.m_GunItem || item.m_BowItem || item.m_AmmoItem || item.m_ArrowItem)
             {
-                return baseWeight * Settings.options.rifleWeightMod;
+                return Settings.options.rifleWeightMod;
             }
             else if (item.m_BodyHarvest)
             {
-                return baseWeight * Settings.options.quarterWeightMod;
+                return Settings.options.quarterWeightMod;
             }
             else if (item.m_ToolsItem || item.m_FlashlightItem || item.m_CookingPotItem || item.m_FlareItem || item.m_TorchItem || item.m_FishingItem || item.m_KeroseneLampItem)
             {
-                return baseWeight * Settings.options.toolWeightMod;
+                return Settings.options.toolWeightMod;
             }
             else
             {
-                return baseWeight * Settings.options.defaultWeightMod;
+                return Settings.options.defaultWeightMod;
             }
         }
     }
