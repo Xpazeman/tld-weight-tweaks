@@ -2,6 +2,7 @@
 using Il2Cpp;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppTLD.Gear;
+using static Il2CppSystem.Xml.XmlWellFormedWriter.AttributeValueCache;
 
 namespace WeightTweaks
 {
@@ -24,7 +25,6 @@ namespace WeightTweaks
 
         public override void OnInitializeMelon()
         {
-            ClassInjector.RegisterTypeInIl2Cpp<WeightTweaksHandler>();
             Settings.OnLoad();
         }
 
@@ -115,7 +115,14 @@ namespace WeightTweaks
 
                 float weightModifier = GetWeightModifier(type);
 
-                item.Value.m_BaseWeightKG = original * weightModifier;
+                if (Settings.options.infiniteCarry)
+                {
+                    item.Value.m_BaseWeightKG = 0;
+                }
+                else
+                {
+                    item.Value.m_BaseWeightKG = original * weightModifier;
+                }
             }
 
             foreach(GearItemObject gearItem in GameManager.GetInventoryComponent().m_Items)
