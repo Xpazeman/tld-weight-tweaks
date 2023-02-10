@@ -29,8 +29,8 @@ namespace WeightTweaks
         [Slider(0f, 1f, NumberFormat = "{0:F2}")]
         public float clothingWornWeightMod = 0.75f;
 
-        [Name("Water Modifier")]
-        [Description("Increases or reduces the weight of the water supply (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
+        [Name("Liquids Modifier")]
+        [Description("Increases or reduces the weight of liquids (currently not working!) (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
         [Slider(0f, 2f, 1, NumberFormat = "{0:F2}")]
         public float waterWeightMod = 1f;
 
@@ -45,9 +45,9 @@ namespace WeightTweaks
         public float rifleWeightMod = 1f;
 
         [Name("Quarter Bags Modifier")]
-        [Description("Increases or reduces the weight of quarter bags (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
-        [Slider(0f, 2f, 1, NumberFormat = "{0:F2}")]
-        public float quarterWeightMod = 1f;
+        [Description("Increases or reduces the weight of quarter bags (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 2 is game default, 2 makes them twice as heavy.")]
+        [Slider(0f, 4f, 1, NumberFormat = "{0:F2}")]
+        public float quarterWeightMod = 2f;
 
         [Name("Tools Modifier")]
         [Description("Increases or reduces the weight of tools like knives, hatchets, torches, fishing tackle, etc. (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]

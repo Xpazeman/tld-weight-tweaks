@@ -29,27 +29,25 @@ namespace WeightTweaks
     {
         private static void Postfix(GearItem __instance)
         {
-            GearItemData itemData = __instance.m_GearItemData;
-            
-            if (!WeightTweaks.originalWeights.ContainsKey(itemData.name))
-            {
-                WeightTweaks.ModTypes itemType = WeightTweaks.GetWeightModifierType(__instance);
+            WeightTweaks.ModifyItemWeight(__instance);
+        }
+    }
 
-                WeightTweaks.originalWeights.Add(itemData.name, itemData.m_BaseWeightKG);
-                WeightTweaks.itemDataList.Add(itemData.name, itemData);
-                WeightTweaks.itemDataType.Add(itemData.name, itemType);
+    /*[HarmonyPatch(typeof(GearItem), nameof(GearItem.CalculateLiquidWeight), new Type[] {typeof(float), typeof(GearLiquidTypeEnum)})]
+    internal class GearItem_CalculateLiquidWeight
+    {
+        private static void Postfix(GearItem __instance, ref float __result)
+        {
+            __result *= WeightTweaks.GetWeightModifier(WeightTweaks.ModTypes.Water);
+        }
+    }*/
 
-                if (Settings.options.infiniteCarry)
-                {
-                    itemData.m_BaseWeightKG = 0;
-                }
-                else
-                {
-                    itemData.m_BaseWeightKG *= WeightTweaks.GetWeightModifier(itemType);
-                }
-
-                __instance.WeightKG = itemData.m_BaseWeightKG;
-            }
+    [HarmonyPatch(typeof(Inventory), nameof(Inventory.AddGear))]
+    internal class Inventory_AddGear
+    {
+        private static void Postfix(Inventory __instance, GearItem gi)
+        {
+            WeightTweaks.ModifyItemWeight(gi);
         }
     }
 

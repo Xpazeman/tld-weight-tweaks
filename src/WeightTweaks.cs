@@ -42,6 +42,38 @@ namespace WeightTweaks
             }
         }
 
+        public static void ModifyItemWeight(GearItem gi)
+        {
+            GearItemData itemData = gi.m_GearItemData;
+
+            if (gi.m_BodyHarvest)
+            {
+                ModifyBodyHarvestWeight(gi);
+                
+                return;
+            }
+
+            if (!originalWeights.ContainsKey(itemData.name))
+            {
+                ModTypes itemType = GetWeightModifierType(gi);
+
+                originalWeights.Add(itemData.name, itemData.m_BaseWeightKG);
+                itemDataList.Add(itemData.name, itemData);
+                itemDataType.Add(itemData.name, itemType);
+
+                if (Settings.options.infiniteCarry)
+                {
+                    itemData.m_BaseWeightKG = 0;
+                }
+                else
+                {
+                    itemData.m_BaseWeightKG *= GetWeightModifier(itemType);
+                }
+            }
+
+            gi.WeightKG = itemData.m_BaseWeightKG;
+        }
+
         public static ModTypes GetWeightModifierType(GearItem item)
         {
             if (item.m_ClothingItem)
@@ -106,6 +138,18 @@ namespace WeightTweaks
             }
         }
 
+        public static void ModifyBodyHarvestWeight(GearItem gi)
+        {
+            if (Settings.options.infiniteCarry)
+            {
+                gi.m_BodyHarvest.m_QuarterBagWasteMultiplier = 0;
+            }
+            else
+            {
+                gi.m_BodyHarvest.m_QuarterBagWasteMultiplier = Settings.options.quarterWeightMod;
+            }
+        }
+
         public static void ResetItemWeights()
         {
             foreach (KeyValuePair<string, GearItemData> item in itemDataList)
@@ -127,7 +171,14 @@ namespace WeightTweaks
 
             foreach(GearItemObject gearItem in GameManager.GetInventoryComponent().m_Items)
             {
-                gearItem.m_GearItem.WeightKG = gearItem.m_GearItem.m_GearItemData.m_BaseWeightKG;
+                if (gearItem.m_GearItem.m_BodyHarvest)
+                {
+                    ModifyBodyHarvestWeight(gearItem.m_GearItem);
+                }
+                else
+                {
+                    gearItem.m_GearItem.WeightKG = gearItem.m_GearItem.m_GearItemData.m_BaseWeightKG;
+                }
             }
         }
     }
