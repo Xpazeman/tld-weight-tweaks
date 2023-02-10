@@ -70,17 +70,7 @@ namespace WeightTweaks
                 WeightTweaks.EncumberUpdate(encumberComp);
             }
 
-            foreach(WeightTweaksHandler handler in WeightTweaks.itemList)
-            {
-                if (Settings.options.infiniteCarry)
-                {
-                    handler.ModifyWeight(0);
-                }
-                else
-                {
-                    handler.ModifyWeight(WeightTweaks.GetWeightModifier(handler.item));
-                }
-            }
+            WeightTweaks.ResetItemWeights();
         }
     }
 

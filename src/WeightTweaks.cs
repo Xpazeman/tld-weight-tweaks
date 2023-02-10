@@ -1,13 +1,27 @@
 ﻿using MelonLoader;
 using Il2Cpp;
 using Il2CppInterop.Runtime.Injection;
+using Il2CppTLD.Gear;
 
 namespace WeightTweaks
 {
     class WeightTweaks : MelonMod
     {
-        public static List<WeightTweaksHandler> itemList = new List<WeightTweaksHandler>();
-        
+        public static Dictionary<string, float> originalWeights = new Dictionary<string, float>();
+        public static Dictionary<string, GearItemData> itemDataList = new Dictionary<string, GearItemData>();
+        public static Dictionary<string, ModTypes> itemDataType = new Dictionary<string, ModTypes>();
+
+        public enum ModTypes
+        {
+            Clothing,
+            Water,
+            Food,
+            Gun,
+            Quarter,
+            Tool,
+            Default
+        }
+
         public override void OnInitializeMelon()
         {
             ClassInjector.RegisterTypeInIl2Cpp<WeightTweaksHandler>();
@@ -28,35 +42,85 @@ namespace WeightTweaks
             }
         }
 
-        public static float GetWeightModifier(GearItem item)
+        public static ModTypes GetWeightModifierType(GearItem item)
         {
             if (item.m_ClothingItem)
             {
-                return Settings.options.clothingWeightMod;
+                return ModTypes.Clothing;
             }
             else if (item.m_WaterSupply)
             {
-                return Settings.options.waterWeightMod;
+                return ModTypes.Water;
             }
             else if (item.m_FoodItem)
             {
-                return Settings.options.foodWeightMod;
+                return ModTypes.Food;
             }
             else if (item.m_GunItem || item.m_BowItem || item.m_AmmoItem || item.m_ArrowItem)
             {
-                return Settings.options.rifleWeightMod;
+                return ModTypes.Gun;
             }
             else if (item.m_BodyHarvest)
             {
-                return Settings.options.quarterWeightMod;
+                return ModTypes.Quarter;
             }
             else if (item.m_ToolsItem || item.m_FlashlightItem || item.m_CookingPotItem || item.m_FlareItem || item.m_TorchItem || item.m_FishingItem || item.m_KeroseneLampItem)
+            {
+                return ModTypes.Tool;
+            }
+            else
+            {
+                return ModTypes.Default;
+            }
+        }
+
+        public static float GetWeightModifier(ModTypes type)
+        {
+            if (type == ModTypes.Clothing)
+            {
+                return Settings.options.clothingWeightMod;
+            }
+            else if (type == ModTypes.Water)
+            {
+                return Settings.options.waterWeightMod;
+            }
+            else if (type == ModTypes.Food)
+            {
+                return Settings.options.foodWeightMod;
+            }
+            else if (type == ModTypes.Gun)
+            {
+                return Settings.options.rifleWeightMod;
+            }
+            else if (type == ModTypes.Quarter)
+            {
+                return Settings.options.quarterWeightMod;
+            }
+            else if (type == ModTypes.Tool)
             {
                 return Settings.options.toolWeightMod;
             }
             else
             {
                 return Settings.options.defaultWeightMod;
+            }
+        }
+
+        public static void ResetItemWeights()
+        {
+            foreach (KeyValuePair<string, GearItemData> item in itemDataList)
+            {
+                float original = originalWeights.GetValueOrDefault(item.Key);
+                ModTypes type = itemDataType.GetValueOrDefault(item.Key);
+
+                float weightModifier = GetWeightModifier(type);
+
+                item.Value.m_BaseWeightKG = original * weightModifier;
+            }
+
+            foreach(GearItemObject gearItem in GameManager.GetInventoryComponent().m_Items)
+            {
+                gearItem.m_GearItem.WeightKG = gearItem.m_GearItem.m_GearItemData.m_BaseWeightKG;
             }
         }
     }

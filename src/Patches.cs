@@ -1,10 +1,20 @@
-﻿using System;
-using HarmonyLib;
-using UnityEngine;
+﻿using HarmonyLib;
 using Il2Cpp;
+using Il2CppTLD.Gear;
+using MelonLoader;
 
 namespace WeightTweaks
 {
+    [HarmonyPatch(typeof(SaveGameSystem), "LoadSceneData", new Type[] { typeof(string), typeof(string) })]
+    internal class SaveGameSystem_LoadSceneData
+    {
+        public static void Prefix(SaveGameSystem __instance, string name, string sceneSaveName)
+        {
+            //WeightTweaks.itemList.Clear();
+            //WeightTweaks.itemDataChanged.Clear();
+        }
+    }
+
     [HarmonyPatch(typeof(Encumber), nameof(Encumber.Start))]
     internal class Encumber_Start
     {
@@ -19,16 +29,26 @@ namespace WeightTweaks
     {
         private static void Postfix(GearItem __instance)
         {
-            WeightTweaksHandler handler = __instance.gameObject.AddComponent<WeightTweaksHandler>();
-            handler.Init(__instance);
-            WeightTweaks.itemList.Add(handler);
-
-            if (Settings.options.infiniteCarry) { 
-                handler.ModifyWeight(0);
-            }
-            else
+            GearItemData itemData = __instance.m_GearItemData;
+            
+            if (!WeightTweaks.originalWeights.ContainsKey(itemData.name))
             {
-                handler.ModifyWeight(WeightTweaks.GetWeightModifier(__instance));
+                WeightTweaks.ModTypes itemType = WeightTweaks.GetWeightModifierType(__instance);
+
+                WeightTweaks.originalWeights.Add(itemData.name, itemData.m_BaseWeightKG);
+                WeightTweaks.itemDataList.Add(itemData.name, itemData);
+                WeightTweaks.itemDataType.Add(itemData.name, itemType);
+
+                if (Settings.options.infiniteCarry)
+                {
+                    itemData.m_BaseWeightKG = 0;
+                }
+                else
+                {
+                    itemData.m_BaseWeightKG *= WeightTweaks.GetWeightModifier(itemType);
+                }
+
+                __instance.WeightKG = itemData.m_BaseWeightKG;
             }
         }
     }
