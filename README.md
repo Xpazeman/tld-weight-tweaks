@@ -2,6 +2,9 @@
 Mod for The Long Dark to modify item weights and carry capacity.
 
 ## Updates
+### v2.3.1
+* FIX: Fixed freezing caused by carcass harvesting
+
 ### v2.3
 * FIX: Completely reworked the way weight is tweaked to remove stuttering when carrying large number of items
 * BUG: Liquids and powder are currently not affected by the weight tweaking due to these changes
