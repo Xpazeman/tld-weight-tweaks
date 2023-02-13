@@ -150,6 +150,15 @@ namespace WeightTweaks
             }
         }
 
+        public static void RestoreItemWeights()
+        {
+            foreach (KeyValuePair<string, GearItemData> item in itemDataList)
+            {
+                float original = originalWeights.GetValueOrDefault(item.Key);
+                item.Value.m_BaseWeightKG = original;
+            }
+        }
+
         public static void ResetItemWeights()
         {
             foreach (KeyValuePair<string, GearItemData> item in itemDataList)

@@ -42,6 +42,20 @@ namespace WeightTweaks
         }
     }*/
 
+    [HarmonyPatch(typeof(Panel_BodyHarvest), nameof(Panel_BodyHarvest.HarvestSuccessful))]
+    internal class Panel_BodyHarvest_HarvestSuccessful
+    {
+        private static void Prefix(Inventory __instance)
+        {
+            WeightTweaks.RestoreItemWeights();
+        }
+
+        private static void Postfix(Inventory __instance)
+        {
+            WeightTweaks.ResetItemWeights();
+        }
+    }
+
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.AddGear))]
     internal class Inventory_AddGear
     {
