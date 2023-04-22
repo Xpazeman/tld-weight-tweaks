@@ -45,14 +45,34 @@ namespace WeightTweaks
     [HarmonyPatch(typeof(Panel_BodyHarvest), nameof(Panel_BodyHarvest.HarvestSuccessful))]
     internal class Panel_BodyHarvest_HarvestSuccessful
     {
-        private static void Prefix(Inventory __instance)
+        private static void Prefix(Panel_BodyHarvest __instance)
         {
             WeightTweaks.RestoreItemWeights();
         }
 
-        private static void Postfix(Inventory __instance)
+        private static void Postfix(Panel_BodyHarvest __instance)
         {
             WeightTweaks.ResetItemWeights();
+        }
+    }
+
+    [HarmonyPatch(typeof(CookingPotItem), nameof(CookingPotItem.SetCookedGearProperties), new Type[] { typeof(GearItem), typeof(GearItem) })]
+    internal class CookingPotItem_SetCookedGearProperties
+    {
+        private static void Prefix(CookingPotItem __instance, GearItem rawItem, GearItem cookedItem)
+        {
+            WeightTweaks.RestoreItemWeights();
+            rawItem.WeightKG = rawItem.m_FoodItem.m_CaloriesRemaining / rawItem.m_FoodWeight.m_CaloriesPerKG;
+        }
+
+        private static void Postfix(CookingPotItem __instance, GearItem rawItem, GearItem cookedItem)
+        {
+            WeightTweaks.ResetItemWeights();
+            if (!WeightTweaks.itemDataList.ContainsKey(cookedItem.m_GearItemData.name))
+            {
+                return;
+            }
+            cookedItem.WeightKG = WeightTweaks.itemDataList[cookedItem.m_GearItemData.name].m_BaseWeightKG;
         }
     }
 

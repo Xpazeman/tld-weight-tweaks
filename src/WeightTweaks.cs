@@ -157,6 +157,11 @@ namespace WeightTweaks
                 float original = originalWeights.GetValueOrDefault(item.Key);
                 item.Value.m_BaseWeightKG = original;
             }
+
+            foreach (GearItemObject gearItem in GameManager.GetInventoryComponent().m_Items)
+            {
+                gearItem.m_GearItem.WeightKG = gearItem.m_GearItem.m_GearItemData.m_BaseWeightKG;
+            }
         }
 
         public static void ResetItemWeights()

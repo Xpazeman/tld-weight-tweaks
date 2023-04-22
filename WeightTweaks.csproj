@@ -207,4 +207,8 @@
         <Reference Include="UnityEngine.Il2CppAssetBundleManager"/>
         <Reference Include="UnityEngine.Il2CppImageConversionManager"/>
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TheLongDarkPath)\Mods" />
+	</Target>
 </Project>
