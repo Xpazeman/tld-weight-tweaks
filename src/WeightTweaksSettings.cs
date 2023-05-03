@@ -6,17 +6,6 @@ namespace WeightTweaks
 {
     internal class WeightTweaksSettings : JsonModSettings
     {
-        [Section("Carry Capacity")]
-
-        [Name("Infinite carry")]
-        [Description("Toggling this on makes all items weightless.")]
-        public bool infiniteCarry = false;
-
-        [Name("Carry capacity to add (Kg)")]
-        [Description("How many Kg will be added to your carry capacity.")]
-        [Slider(0, 120)]
-        public int carryKgAdd = 0;
-
         [Section("Item Weight Modifiers")]
 
         [Name("Clothing Modifier")]
@@ -58,20 +47,6 @@ namespace WeightTweaks
         [Description("Increases or reduces the weight of items not listed before (e.g. 0 makes them weightless, 0.5 makes them half as heavy, 1 is game default, 2 makes them twice as heavy.")]
         [Slider(0f, 2f, 1, NumberFormat = "{0:F2}")]
         public float defaultWeightMod = 1f;
-
-        protected override void OnConfirm()
-        {
-            base.OnConfirm();
-
-            Encumber encumberComp = GameManager.GetEncumberComponent();
-
-            if (encumberComp != null)
-            {
-                WeightTweaks.EncumberUpdate(encumberComp);
-            }
-
-            WeightTweaks.ResetItemWeights();
-        }
     }
 
     internal static class Settings
