@@ -35,7 +35,7 @@ namespace WeightTweaks
             {
                 return baseWeight * Settings.options.quarterWeightMod;
             }
-            else if (item.m_ToolsItem || item.m_FlashlightItem || item.m_CookingPotItem || item.m_FlareItem || item.m_TorchItem || item.m_FishingItem || item.m_KeroseneLampItem)
+            else if (item.m_ToolsItem || item.m_FlashlightItem || item.m_CookingPotItem || item.m_FlareItem || item.m_TorchItem || item.m_KeroseneLampItem)
             {
                 return baseWeight * Settings.options.toolWeightMod;
             }
